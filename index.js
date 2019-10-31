@@ -11,6 +11,12 @@ let tweets = [];
 const find = id => tweets.find(t => t.id == id);
 const filter = id => tweets.filter(t => t.id != id);
 
+app.get("version", ( _ , res) =>
+  res.json({
+    version: "1.0.0"
+  })
+);
+
 app
   .route("/")
   .get((req, res) => res.json(tweets))

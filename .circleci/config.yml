@@ -1,15 +1,15 @@
 version: 2
 jobs:
   build:
-    docker: 
-    # specify the version you desire here
+    docker:
+      # specify the version you desire here
       - image: circleci/node:7.10
     steps:
       - checkout
-      - run: 
-          name: install dependency
+      - run:
+          name: Install dependency
           command: npm install
-      - run: 
+      - run:
           name: Run test
           command: npm run test
   deploy:
@@ -18,18 +18,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Build docker image"
+          name: Build docker image
           command: docker build -t pknndev/twitder-ci .
       - run:
-        name: Push to heroku registry container
-        command: |
-          echo $HEROKU_API_KEY | docker login -u _ --password-stdin registry.heroku.com
-          docker tag pknndev/twitder-ci registry.heroku.com/twitder-ci/web
-          docker push register.heroku.com/twitder-ci/web
+          name: Push to heroku registry container
+          command: |
+            echo $HEROKU_API_KEY | docker login -u _ --password-stdin registry.heroku.com
+            docker tag pknndev/twitder-ci registry.heroku.com/twitder-ci/web
+            docker push registry.heroku.com/twitder-ci/web
       - run:
-        name: Release with heroku
-        command: |
-          heroku comtainer:release web -a twitder-ci
+          name: Release with heroku
+          command: |
+            heroku container:release web -a twitder-ci
 workflows:
   version: 2
   build_and_deploy:
